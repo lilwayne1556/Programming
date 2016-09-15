@@ -1,0 +1,59 @@
+import java.util.Scanner;
+class tower {
+    public static void main(String[] args){
+        int size = 3;
+        int k = 1;
+        Scanner obj = new Scanner(System.in);
+        System.out.print("How many disks do you want? ");
+        size = obj.nextInt();
+        obj.close();
+        int[][] Tower = new int[3][size]; 
+        for(int n = 0; n < size; n++){
+            Tower[0][n] = size - n;
+        }
+        move(Tower, 0, 1, 2, size, size);
+        }
+    public static void move(int[][] tower, int a, int b, int c, int g, int size){
+        if(g == 1){
+            tower = basicMove(tower, a, c, size);
+        } else {
+            move(tower, a, c, b, g-1, size);
+            tower = basicMove(tower, a, c, size);
+            move(tower, b, a, c, g-1, size);
+        }
+        
+    }
+
+    public static int[][] basicMove(int[][] tower, int a, int c, int size){
+        for(int i = size-1; i >= 0; i--){
+            for(int n = 0; n < size-1; n++){
+                if(tower[a][i]!=0 && tower[c][n]==0 && n==0){
+                    tower[c][n] = tower[a][i];
+                    tower[a][i] = 0;
+                    printArray(tower, size);
+                } else if(tower[a][i]!=0 && tower[c][n]>tower[a][i] && tower[c][n+1]==0){
+                    tower[c][n+1] = tower[a][i];
+                    tower[a][i] = 0;
+                    printArray(tower, size);
+                } 
+            }
+        }
+        return tower;
+    }
+
+    public static void printArray(int[][] tower, int size){
+        for(int p = 0; p < size; p++){
+            System.out.print(tower[0][p] + " ");
+        }
+        System.out.println();
+        for(int p = 0; p < size; p++){
+            System.out.print(tower[1][p] + " ");
+        }
+        System.out.println();
+        for(int p = 0; p < size; p++){
+            System.out.print(tower[2][p] + " ");
+        }
+        System.out.println("\n");
+    }
+
+}

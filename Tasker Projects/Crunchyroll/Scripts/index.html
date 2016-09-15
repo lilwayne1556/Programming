@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta name="viewport" value="device-width" />
+        <style type="text/css">
+            .anime {
+                position: relative;
+                width: 200px;
+                height: 350px;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <div id="container"><br>
+            </div><br>
+        </center>
+        <script type="text/javascript">
+            var files        = listFiles('/sdcard/Documents/Tasker/Crunchyroll/Images');
+            var arrayOfFiles = files.split('\n');
+            var e            = document.getElementById("container");
+            var name;
+            for(n = 0; n < arrayOfFiles.length; n++){
+                name = arrayOfFiles[n].replace("/sdcard/Documents/Tasker/Crunchyroll/Images/", "");
+                name = name.replace(".jpg", "");
+                e.innerHTML += '<div class="anime">';
+                e.innerHTML += '<img style="width:150px;height:225px;" src="'+arrayOfFiles[n]+'" onclick="video(\''+name+'\')"/>';
+                e.innerHTML += '<br>';
+                e.innerHTML += name;
+                e.innerHTML += '</div>';
+            }
+
+            function video(anime){
+                setGlobal("Anime", anime);
+                performTask("Crunchyroll Play Video");
+            }
+        </script>
+    </body>
+</html>

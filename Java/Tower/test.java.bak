@@ -1,0 +1,78 @@
+class test {
+    public static void main(String[] args){
+        int[] A = {2,1,0,0,0,0};
+        int[] B = {0,0,0,0,0,0};
+        int[] C = {0,0,0,0,0,0};
+        int size = 1;
+        int[][] Tower = new int[3][size+1];
+
+        movePiece(A, B, C, 1, false, size);
+        System.out.println("Finished");
+        }
+    public static int movePiece(int[] a, int[] b, int[] c, int k, boolean moved, int size){
+        if((k==1 && (b[size]==1 || c[size]==1)) || (k==2 && (a[size]==1 || c[size]==1)) || (k==3 && (a[size]==1 || b[size]==1))){ 
+            return 1;
+        }
+        for(int i = a.length-1; i >= 0; i--){
+            for(int n = 0; n < b.length-1; n++){
+                if(((n==0 && b[n]==0)) && a[i]!=0){
+                    if(a[i]==(size+1) && !moved){
+                        b[n] = a[i];
+                        a[i] = 0;
+                        moved = true;
+                    } else if (a[i]!=(size+1)){
+                        b[n] = a[i];
+                        a[i] = 0;
+                    }
+                } else if(b[n] > a[i] && a[i]!=0 && b[n+1] == 0){
+                    b[n+1] = a[i];
+                    a[i] = 0;
+                } 
+            }
+            for(int m = 0; m < c.length-1; m++){
+                if(((m==0 && c[m]==0)) && a[i]!=0){
+                    if(a[i]==(size+1) && !moved){
+                        c[m] = a[i];
+                            a[i] = 0;
+                            moved = true;
+                        } else if(a[i]!=(size+1)) {
+                            c[m] = a[i];
+                            a[i] = 0;
+                        }
+                } else if(c[m] > a[i] && a[i]!=0 && c[m+1] == 0){
+                    c[m+1] = a[i];
+                    a[i] = 0;
+                }
+            }
+        }
+    
+        if(k==3){
+            k = 1;
+        } else {
+            k++;
+        }
+        
+        printArray(a, b, c, size);
+        
+        if(movePiece(b, c, a, k, moved, size)==1){
+            return 1;
+        }
+        
+        return 0;
+    }
+
+    public static void printArray(int[] a, int[] b, int[] c, int size){
+        for(int p = 0; p <= size; p++){
+            System.out.print(a[p] + " ");
+        }
+        System.out.println();
+        for(int p = 0; p <= size; p++){
+            System.out.print(b[p] + " ");
+        }
+        System.out.println();
+        for(int p = 0; p <= size; p++){
+            System.out.print(c[p] + " ");
+        }
+        System.out.println("\n");
+    }
+}

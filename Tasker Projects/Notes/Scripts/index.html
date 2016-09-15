@@ -1,0 +1,96 @@
+<html>
+        <head>
+                <style>
+                #send {
+                        width: 60px;
+                        }
+                #note {
+                        width: 215px;
+                        margin-left: 10px;
+                        margin-right: 10px;
+                        }
+                .notes {
+                        width: 300px;
+                        background-color: #f2f2f2;
+                        border: 1px solid black;
+                        border-radius: 5px;
+                        box-shadow: 5px 5px 2px #888888;
+                        margin-top: 10px;
+                        padding-left: 5px;
+                        padding-bottom: 5px;
+                        }
+                .delete {
+                        width: 15px;
+                        height: 15px;
+                        margin-top: 5px;
+                        margin-bottom: 0px;
+                        margin-left: 0px;
+                        margin-right: 0px;
+                        position: absolute;
+                        right: 5px;
+                        }
+                .date {
+                        position: absolute;
+                }
+                body {
+                       background-color: #d5d5d5;
+                       width: 310px;
+                       margin-top: 10px;
+                       margin-right: 0px;
+                       margin-left: 0px;
+                       margin-bottom: 0px;
+                        }
+                </style>
+        </head>
+        <body>
+                <input id="note" name="note" />
+                <input type="button" id="send" value="Save" onclick="send();" /> 
+                <div id="container"></div>
+                <script type="text/javascript">
+                        function send(){
+                                var note = document.getElementById("note");
+                                var date = new Date();
+                                var hour = date.getHours();
+                                var timeOfDay = "AM";
+                                if(hour > 11){
+                                        hour -= 12;
+                                        timeOfDay = "PM";
+                                } 
+                                else if(hour==0){
+                                        hour = 12;
+                                }
+                                var dateTxt = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + hour + ":" + date.getMinutes() + " " + timeOfDay;
+                                var insert = note.value + "::" + dateTxt + "[]"; 
+                                writeFile("Documents/Tasker/Notes/Data/data.txt", insert, true); 
+                                note.value = "";
+                                notes();
+                        }
+
+                        function deleteNote(num){
+                                var text = readFile("Documents/Tasker/Notes/Data/data.txt");
+                                var textArr = text.split("[]");
+                                var noteInsert = "";
+                                textArr.splice(num, 1);
+                                for(var i = 0; i < textArr.length; i++){
+                                        if(textArr[i]!=null && textArr[i]!=""){
+                                                noteInsert += textArr[i] + "[]";
+                                        }
+                                }
+                                writeFile("Documents/Tasker/Notes/Data/data.txt", noteInsert); 
+                                notes();
+                        }
+                        
+                        function notes(){
+                                document.getElementById("container").innerHTML = "";
+                                var text = readFile("Documents/Tasker/Notes/Data/data.txt");
+                                var textArr = text.split("[]");
+                                for(var i = 0; i < textArr.length; i++){
+                                        if(textArr[i]!=null && textArr[i]!=""){
+                                                var dateArr = textArr[i].split("::");
+                                                document.getElementById("container").innerHTML += "<div class='notes'><div class='date'>"+dateArr[1]+"</div><img class='delete' src='file:///storage/emulated/0/Documents/Tasker/Notes/Images/delete.png' onclick='deleteNote("+i+");'/><br />" + dateArr[0] + "</div>";
+                                        }
+                                }
+                        } notes(); 
+               </script>
+        </body>
+</html>
