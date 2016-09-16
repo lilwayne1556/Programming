@@ -12,12 +12,14 @@ class quick{
 
         try(BufferedReader file = new BufferedReader(new FileReader("../Data/data.txt"))) {
             String line;
+            boolean leftValid, rightValid;
+            double count;
             while((line = file.readLine()) != null){
                 String[] leftHand  = line.substring(1,5).split("");                         // Gets first 5 numbers
                 String[] rightHand = line.substring(5).split("");                           // Gets last 5 numbers
-                boolean leftValid  = checkValidity(leftHand, 0);                            // Checks if left hand is correct, checkValidity(Left Hand, Left)
-                boolean rightValid = checkValidity(rightHand, 1);                           // Checks if right hand is correct, checkValidity(Right Hand, Right)
-                double count       = 0;
+                leftValid          = checkValidity(leftHand, 0);                            // Checks if left hand is correct, checkValidity(Left Hand, Left)
+                rightValid         = checkValidity(rightHand, 1);                           // Checks if right hand is correct, checkValidity(Right Hand, Right)
+                count              = 0;
                 if(leftValid && rightValid){
                     for(int leftPos = 0; leftPos < 4; leftPos++){                           // Checks left index fingers and add 10 for each
                         if(leftHand[leftPos].equals("1")){                                  // Makes sure the digit equals 1
