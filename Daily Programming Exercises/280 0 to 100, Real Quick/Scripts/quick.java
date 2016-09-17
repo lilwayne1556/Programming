@@ -15,13 +15,13 @@ class quick{
             boolean leftValid, rightValid;
             double count;
             while((line = file.readLine()) != null){
-                String[] leftHand  = line.substring(1,5).split("");                         // Gets first 5 numbers
-                String[] rightHand = line.substring(5).split("");                           // Gets last 5 numbers
+                String[] leftHand  = line.replaceFirst("(\\d{5})$", "").split("");                         // Gets first 5 numbers
+                String[] rightHand = line.replaceFirst("^(\\d{5})", "").split("");                           // Gets last 5 numbers
                 leftValid          = checkValidity(leftHand, 0);                            // Checks if left hand is correct, checkValidity(Left Hand, Left)
                 rightValid         = checkValidity(rightHand, 1);                           // Checks if right hand is correct, checkValidity(Right Hand, Right)
                 count              = 0;
                 if(leftValid && rightValid){
-                    for(int leftPos = 0; leftPos < 4; leftPos++){                           // Checks left index fingers and add 10 for each
+                    for(int leftPos = 1; leftPos < 5; leftPos++){                           // Checks left index fingers and add 10 for each
                         if(leftHand[leftPos].equals("1")){                                  // Makes sure the digit equals 1
                             count += 10;
                         }
@@ -30,7 +30,7 @@ class quick{
                         if(rightHand[rightPos].equals("1")){ count += 1; }
                     }
                     if(rightHand[1].equals("1")) { count += 5; }                            // If right thumb is out, then add 5
-                    if(leftHand[4].equals("1")) { count += 50; }                            // If left thumb is out, then add 50
+                    if(leftHand[5].equals("1")) { count += 50; }                            // If left thumb is out, then add 50
                     System.out.println(line + " -> "+ count);                               // Output
                 } else {
                     System.out.println(line + " -> Invalid");
